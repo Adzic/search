@@ -38,13 +38,18 @@ def search_ptcpn(event):
 app = tk.Tk()
 app.title("Searchable Table Viewer")
 
+# Set font and colors
+app.option_add("*Font", "Arial 12")
+app.option_add("*Background", "#f0f0f0")
+app.option_add("*Foreground", "#333333")
+
 # Create a frame for the search bars and treeview
-frame = tk.Frame(app)
-frame.pack(pady=20)
+search_frame = tk.Frame(app)
+search_frame.pack(pady=20)
 
 # Create search bars and labels for each column
-ssn_frame = tk.Frame(frame)
-ssn_frame.pack(side=tk.LEFT, padx=10)
+ssn_frame = tk.Frame(search_frame)
+ssn_frame.pack(side=tk.LEFT, padx=10, pady=10)
 ssn_label = tk.Label(ssn_frame, text="SSN_NBR")
 ssn_label.pack()
 ssn_var = tk.StringVar()
@@ -52,8 +57,8 @@ ssn_entry = ttk.Entry(ssn_frame, textvariable=ssn_var)
 ssn_entry.pack()
 ssn_entry.bind("<KeyRelease>", search_ssn)
 
-dob_frame = tk.Frame(frame)
-dob_frame.pack(side=tk.LEFT, padx=10)
+dob_frame = tk.Frame(search_frame)
+dob_frame.pack(side=tk.LEFT, padx=10, pady=10)
 dob_label = tk.Label(dob_frame, text="DOB")
 dob_label.pack()
 dob_var = tk.StringVar()
@@ -61,8 +66,8 @@ dob_entry = ttk.Entry(dob_frame, textvariable=dob_var)
 dob_entry.pack()
 dob_entry.bind("<KeyRelease>", search_dob)
 
-ptcpn_frame = tk.Frame(frame)
-ptcpn_frame.pack(side=tk.LEFT, padx=10)
+ptcpn_frame = tk.Frame(search_frame)
+ptcpn_frame.pack(side=tk.LEFT, padx=10, pady=10)
 ptcpn_label = tk.Label(ptcpn_frame, text="PTCPN_DPST")
 ptcpn_label.pack()
 ptcpn_var = tk.StringVar()
@@ -71,7 +76,9 @@ ptcpn_entry.pack()
 ptcpn_entry.bind("<KeyRelease>", search_ptcpn)
 
 # Create the Treeview
-tree = ttk.Treeview(app, columns=columns, show='headings')
+tree_frame = tk.Frame(app)
+tree_frame.pack(pady=20)
+tree = ttk.Treeview(tree_frame, columns=columns, show='headings')
 for col in columns:
     tree.heading(col, text=col)
 
@@ -80,6 +87,10 @@ for item in data:
     tree.insert("", tk.END, values=item)
 
 tree.pack(pady=20)
+
+# Set the theme
+style = ttk.Style()
+style.theme_use("clam")
 
 app.geometry("500x300")
 app.mainloop()
